@@ -22,6 +22,20 @@ tasks.test {
     useJUnitPlatform()
 }
 
+publishing {
+    publications {
+        create<MavenPublication>("maven") {
+            groupId = "lol.farsight"
+            artifactId = "divine"
+            version = "${project.version}"
+            from(components["java"])
+            artifact(tasks.jar) {
+                classifier = "core"
+            }
+        }
+    }
+}
+
 val targetJavaVersion = 25
 java {
     val javaVersion = JavaVersion.toVersion(targetJavaVersion)
