@@ -22,7 +22,7 @@ tasks.test {
     useJUnitPlatform()
 }
 
-val targetJavaVersion = 17
+val targetJavaVersion = 25
 java {
     val javaVersion = JavaVersion.toVersion(targetJavaVersion)
     sourceCompatibility = javaVersion
