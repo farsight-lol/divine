@@ -6,6 +6,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Objects;
 import java.util.function.Consumer;
 import java.util.function.Function;
+import java.util.function.Predicate;
 
 public sealed interface Option<T> {
     @Contract("_ -> new")
@@ -45,6 +46,16 @@ public sealed interface Option<T> {
                     other.unwrap(),
                     value
             );
+        }
+
+        @Override
+        public @NotNull Option<T> filter(final @NotNull Predicate<T> function) {
+            Conditions.nonNull(function, "function");
+
+            if (function.test(value))
+                return this;
+
+            return Option.none();
         }
 
         @Override
@@ -110,6 +121,13 @@ public sealed interface Option<T> {
         }
 
         @Override
+        public @NotNull Option<T> filter(final @NotNull Predicate<T> function) {
+            Conditions.nonNull(function, "function");
+
+            return Option.none();
+        }
+
+        @Override
         public void ifSome(final @NotNull Consumer<T> function) {
             Conditions.nonNull(function, "function");
         }
@@ -150,6 +168,8 @@ public sealed interface Option<T> {
     <E> @NotNull Result<T, E> okOr(final E value);
 
     boolean is(final @NotNull Option<T> other);
+
+    @NotNull Option<T> filter(final @NotNull Predicate<T> function);
 
     void ifSome(final @NotNull Consumer<T> function);
 

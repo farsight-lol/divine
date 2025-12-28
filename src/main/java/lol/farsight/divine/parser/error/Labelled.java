@@ -2,7 +2,6 @@ package lol.farsight.divine.parser.error;
 
 import lol.farsight.divine.data.Conditions;
 import lol.farsight.divine.data.Error;
-import lol.farsight.divine.parser.CombinatorError;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;

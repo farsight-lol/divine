@@ -1,7 +1,6 @@
 package lol.farsight.divine.parser.combinator;
 
 import lol.farsight.divine.data.*;
-import lol.farsight.divine.parser.Combinator;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

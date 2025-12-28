@@ -3,8 +3,7 @@ package lol.farsight.divine.parser.combinator;
 import lol.farsight.divine.data.Conditions;
 import lol.farsight.divine.data.InputCursor;
 import lol.farsight.divine.data.Option;
-import lol.farsight.divine.parser.Combinator;
-import lol.farsight.divine.parser.CombinatorError;
+import lol.farsight.divine.parser.error.CombinatorError;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Function;

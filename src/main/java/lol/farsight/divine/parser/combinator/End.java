@@ -1,12 +1,8 @@
 package lol.farsight.divine.parser.combinator;
 
 import lol.farsight.divine.data.*;
-import lol.farsight.divine.data.Error;
-import lol.farsight.divine.parser.Combinator;
-import lol.farsight.divine.parser.CombinatorError;
+import lol.farsight.divine.parser.error.CombinatorError;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.Set;
 
 public record End<E>() implements Combinator<E, Unit> {
     @Override

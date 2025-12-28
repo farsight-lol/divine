@@ -1,12 +1,11 @@
 package lol.farsight.divine.data;
 
-import lol.farsight.divine.parser.Combinator;
-import lol.farsight.divine.parser.CombinatorError;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Predicate;
 import java.util.function.UnaryOperator;
 import java.util.stream.IntStream;
 
@@ -20,6 +19,14 @@ public final class InputCursor<E> {
                 .toArray(Character[]::new);
 
         return new InputCursor<>(boxed);
+    }
+
+    public void skipWhile(final @NotNull Predicate<E> function) {
+        Conditions.nonNull(function, "function");
+
+        while (next().filter(function).isSome()) {}
+
+        index--;
     }
 
     public record Mark(int index, int alternatesSize) {}
@@ -111,7 +118,7 @@ public final class InputCursor<E> {
 
     public @NotNull List<Error<E>> takeAlternates() {
         final var val = new ArrayList<>(alternates);
-        alternates.clear();;
+        alternates.clear();
 
         return val;
     }

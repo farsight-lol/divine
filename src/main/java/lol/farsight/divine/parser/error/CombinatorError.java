@@ -1,18 +1,14 @@
-package lol.farsight.divine.parser;
+package lol.farsight.divine.parser.error;
 
 import lol.farsight.divine.data.Conditions;
 import lol.farsight.divine.data.Error;
 import lol.farsight.divine.data.Option;
-import lol.farsight.divine.parser.error.Expected;
-import lol.farsight.divine.parser.error.Labelled;
-import lol.farsight.divine.parser.error.Simple;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
-import java.util.Objects;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public interface CombinatorError<E> extends Error<E> {
     static <E> Error<E> simple(
@@ -35,10 +31,12 @@ public interface CombinatorError<E> extends Error<E> {
     ) {
         Conditions.nonNull(expected, "expected");
 
-        return expected(
+        return new Expected<>(
                 index,
                 found,
-                Arrays.stream(expected).collect(Collectors.toUnmodifiableSet())
+                Arrays.stream(expected)
+                        .map(List::of)
+                        .collect(Collectors.toUnmodifiableSet())
         );
     }
 
@@ -48,6 +46,22 @@ public interface CombinatorError<E> extends Error<E> {
             @NotNull Set<E> expected
     ) {
         Conditions.nonNull(expected, "expected");
+
+        return new Expected<>(
+                index,
+                found,
+                expected.stream()
+                        .map(List::of)
+                        .collect(Collectors.toUnmodifiableSet())
+        );
+    }
+
+    static <E> Error<E> expectedExactly(
+            int index,
+            @NotNull Option<E> found,
+            @NotNull Set<@NotNull List<E>> expected
+    ) {
+        Conditions.elementsNonNull(expected.toArray(), "expected");
 
         return new Expected<>(
                 index,

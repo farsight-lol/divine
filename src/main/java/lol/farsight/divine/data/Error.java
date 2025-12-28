@@ -1,7 +1,5 @@
 package lol.farsight.divine.data;
 
-import lol.farsight.divine.parser.CombinatorError;
-import lol.farsight.divine.parser.error.Labelled;
 import org.jetbrains.annotations.NotNull;
 
 public interface Error<E> {

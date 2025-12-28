@@ -1,8 +1,8 @@
-package lol.farsight.divine.parser;
+package lol.farsight.divine.parser.strategy;
 
 import lol.farsight.divine.data.InputCursor;
 import lol.farsight.divine.data.Option;
-import lol.farsight.divine.parser.strategy.ViaParser;
+import lol.farsight.divine.parser.combinator.Combinator;
 import org.jetbrains.annotations.NotNull;
 
 public interface Strategy<E, O> {

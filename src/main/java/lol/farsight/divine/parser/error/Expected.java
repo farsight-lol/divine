@@ -3,9 +3,9 @@ package lol.farsight.divine.parser.error;
 import lol.farsight.divine.data.Conditions;
 import lol.farsight.divine.data.Error;
 import lol.farsight.divine.data.Option;
-import lol.farsight.divine.parser.CombinatorError;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -14,7 +14,7 @@ import java.util.stream.Stream;
 public record Expected<E>(
         int index,
         Option<E> found,
-        @NotNull Set<E> expected
+        @NotNull Set<@NotNull List<E>> expected
 ) implements CombinatorError<E> {
     public Expected {
         Conditions.nonNull(expected, "expected");

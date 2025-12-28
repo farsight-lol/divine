@@ -4,13 +4,12 @@ import lol.farsight.divine.data.Conditions;
 import lol.farsight.divine.data.InputCursor;
 import lol.farsight.divine.data.Option;
 import lol.farsight.divine.data.Unit;
-import lol.farsight.divine.parser.Combinator;
-import lol.farsight.divine.parser.Strategy;
+import lol.farsight.divine.parser.combinator.Combinator;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Supplier;
 
-import static lol.farsight.divine.parser.Combinator.*;
+import static lol.farsight.divine.parser.combinator.Combinator.*;
 
 public record ViaParser<E, O>(
         @NotNull Combinator<E, O> parser
