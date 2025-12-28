@@ -9,7 +9,7 @@ public interface IterCombinator<E, O> extends Combinator<E, Unit> {
     enum Error {
         TOO_FEW_ENTRIES,
         REACHED_MAX,
-        REACHED_END
+        STOPPED
     }
 
     class State {
@@ -29,7 +29,7 @@ public interface IterCombinator<E, O> extends Combinator<E, Unit> {
             final var val = next(input, state);
             if (val.isErr()) return switch (val.unwrapErr()) {
                 case TOO_FEW_ENTRIES -> Option.none();
-                case REACHED_MAX, REACHED_END -> Option.some(Unit.INSTANCE);
+                case REACHED_MAX, STOPPED -> Option.some(Unit.INSTANCE);
             };
         }
     }

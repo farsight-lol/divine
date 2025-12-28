@@ -34,7 +34,7 @@ public record FoldLeft<E, O, OB>(
             final var val = parserB.next(input, state);
             if (val.isErr()) return switch (val.unwrapErr()) {
                 case TOO_FEW_ENTRIES -> Option.none();
-                case REACHED_END, REACHED_MAX -> Option.some(out);
+                case STOPPED, REACHED_MAX -> Option.some(out);
             };
 
             out = function.apply(out, val.unwrap());

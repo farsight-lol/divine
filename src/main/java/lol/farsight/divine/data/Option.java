@@ -36,6 +36,11 @@ public sealed interface Option<T> {
         }
 
         @Override
+        public @NotNull <E> Result<T, E> ok() {
+            return Result.ok(value);
+        }
+
+        @Override
         public boolean is(final @NotNull Option<T> other) {
             Conditions.nonNull(other, "other");
 
@@ -114,6 +119,11 @@ public sealed interface Option<T> {
         }
 
         @Override
+        public @NotNull <E> Result<T, E> ok() {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
         public boolean is(final @NotNull Option<T> other) {
             Conditions.nonNull(other, "other");
 
@@ -166,6 +176,8 @@ public sealed interface Option<T> {
     boolean isNone();
 
     <E> @NotNull Result<T, E> okOr(final E value);
+
+    <E> @NotNull Result<T, E> ok();
 
     boolean is(final @NotNull Option<T> other);
 

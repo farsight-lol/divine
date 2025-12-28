@@ -22,7 +22,7 @@ public record Collect<E, O>(
             final var val = parser.next(input, state);
             if (val.isErr()) return switch (val.unwrapErr()) {
                 case TOO_FEW_ENTRIES -> Option.none();
-                case REACHED_MAX, REACHED_END -> Option.some(list);
+                case REACHED_MAX, STOPPED -> Option.some(list);
             };
 
             list.add(val.unwrap());

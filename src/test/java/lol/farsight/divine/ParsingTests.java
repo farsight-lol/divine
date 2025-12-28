@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
+import java.util.List;
 
 class ParsingTests {
     @Test
@@ -27,18 +28,18 @@ class ParsingTests {
 
             final var atom = choices(
                     number,
-                    padded(just('-'))
+                    token('-')
                             .ignoreThen(expr)
                             .map(BigDecimal::negate),
                     expr.delimitedBy(
-                            padded(just('(')),
-                            padded(just(')'))
+                            token('('),
+                            token(')')
                     )
             );
 
             final var multiply = atom.foldLeft(
-                    padded(just('*'))
-                            .or(padded(just('/')))
+                    token('*')
+                            .or(token('/'))
                             .then(atom)
                             .repeated(),
                     (a, b) -> switch (b.left().getFirst()) {
@@ -51,8 +52,8 @@ class ParsingTests {
             );
 
             return multiply.foldLeft(
-                    padded(just('+'))
-                            .or(padded(just('-')))
+                    token('+')
+                            .or(token('-'))
                             .then(multiply)
                             .repeated(),
                     (a, b) -> switch (b.left().getFirst()) {
@@ -65,6 +66,24 @@ class ParsingTests {
             );
         });
 
-        System.out.println(exprParser.parse(InputCursor.from("1+1+1+1+1+1")));
+        final var val = exprParser.parse(InputCursor.from("1+1+1+1+1+1"));
+
+        assert val.left().isSome();
+        assert val.left().unwrap().equals(new BigDecimal(6));
+        assert val.right().isEmpty();
+    }
+
+    @Test
+    void separatedBy() {
+        final var atom = token('1')
+                .to("1")
+                .separatedBy(token(','), 0, 4, false, true)
+                .collect();
+
+        final var val = atom.parse(InputCursor.from("1, 1, 1, 1"));
+
+        assert val.left().isSome();
+        assert val.left().unwrap().equals(List.of("1", "1", "1", "1"));
+        assert val.right().isEmpty();
     }
 }

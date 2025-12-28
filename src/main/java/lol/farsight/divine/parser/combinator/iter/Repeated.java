@@ -32,11 +32,11 @@ public record Repeated<E, O>(
 
             if (state.count < atLeast)
                 return Result.err(Error.TOO_FEW_ENTRIES);
-            return Result.err(Error.REACHED_END);
+            return Result.err(Error.STOPPED);
         }
 
         state.count++;
 
-        return Result.ok(val.unwrap());
+        return val.ok();
     }
 }

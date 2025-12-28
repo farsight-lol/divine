@@ -3,10 +3,12 @@ package lol.farsight.divine.parser.combinator;
 import lol.farsight.divine.data.*;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Arrays;
+
 public record Choices<E, O>(@NotNull Combinator<E, O> @NotNull ... parsers) implements Combinator<E, O> {
     @SafeVarargs // stupid ass annotation placement
     public Choices {
-        Conditions.elementsNonNull(parsers, "element of parsers");
+        Conditions.elementsNonNull(Arrays.stream(parsers), "parsers");
     }
 
     @Override

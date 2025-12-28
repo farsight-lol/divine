@@ -61,7 +61,7 @@ public interface CombinatorError<E> extends Error<E> {
             @NotNull Option<E> found,
             @NotNull Set<@NotNull List<E>> expected
     ) {
-        Conditions.elementsNonNull(expected.toArray(), "expected");
+        Conditions.elementsNonNull(expected.stream(), "expected");
 
         return new Expected<>(
                 index,

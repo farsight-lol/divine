@@ -4,6 +4,7 @@ import lol.farsight.divine.data.*;
 import lol.farsight.divine.data.Error;
 import lol.farsight.divine.parser.combinator.iter.IterCombinator;
 import lol.farsight.divine.parser.combinator.iter.Repeated;
+import lol.farsight.divine.parser.combinator.iter.SeparatedBy;
 import lol.farsight.divine.parser.error.CombinatorError;
 import lol.farsight.divine.parser.strategy.Strategy;
 import org.jetbrains.annotations.NotNull;
@@ -43,6 +44,14 @@ public interface Combinator<E, O> {
         for (char c : unboxed) boxed.add(c);
 
         return new Just<>(boxed);
+    }
+
+    static @NotNull Padded<List<Character>> token(final @NotNull String value) {
+        return padded(just(value));
+    }
+
+    static @NotNull Padded<List<Character>> token(final char value) {
+        return padded(just(value));
     }
 
     static <O> @NotNull Padded<O> padded(final @NotNull Combinator<Character, O> parser) {
@@ -128,6 +137,80 @@ public interface Combinator<E, O> {
 
     default @NotNull ThenIgnore<E, O> thenIgnore(final @NotNull Combinator<E, ?> other) {
         return new ThenIgnore<>(this, other);
+    }
+
+    default @NotNull PaddedBy<E, O> paddedBy(final @NotNull Combinator<E, ?> other) {
+        return new PaddedBy<>(this, other);
+    }
+
+    default @NotNull SeparatedBy<E, O> separatedBy(
+            final @NotNull Combinator<E, ?> other,
+            int atLeast,
+            int atMost,
+            boolean allowLeading,
+            boolean allowTrailing
+    ) {
+        return new SeparatedBy<>(
+                this,
+                other,
+                atLeast,
+                atMost,
+                allowLeading,
+                allowTrailing
+        );
+    }
+
+    default @NotNull SeparatedBy<E, O> separatedBy(
+            final @NotNull Combinator<E, ?> other,
+            int atLeast,
+            boolean allowTrailing
+    ) {
+        return separatedBy(
+                other,
+                atLeast,
+                -1,
+                false,
+                allowTrailing
+        );
+    }
+
+    default @NotNull SeparatedBy<E, O> separatedBy(
+            final @NotNull Combinator<E, ?> other,
+            int atLeast
+    ) {
+        return separatedBy(
+                other,
+                atLeast,
+                -1,
+                false,
+                false
+        );
+    }
+
+    default @NotNull SeparatedBy<E, O> separatedBy(
+            final @NotNull Combinator<E, ?> other,
+            boolean allowLeading,
+            boolean allowTrailing
+    ) {
+        return separatedBy(
+                other,
+                0,
+                -1,
+                allowLeading,
+                allowTrailing
+        );
+    }
+
+    default @NotNull SeparatedBy<E, O> separatedBy(
+            final @NotNull Combinator<E, ?> other
+    ) {
+        return separatedBy(
+                other,
+                0,
+                -1,
+                false,
+                false
+        );
     }
 
     default @NotNull AndIs<E, O> andIs(final @NotNull Combinator<E, ?> other) {

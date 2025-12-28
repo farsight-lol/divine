@@ -4,8 +4,8 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Arrays;
 import java.util.Objects;
+import java.util.stream.Stream;
 
 public final class Conditions {
     private Conditions() {
@@ -21,11 +21,11 @@ public final class Conditions {
     }
 
     @Contract("null, _ -> fail; _, null -> fail")
-    public static <T> void elementsNonNull(final @Nullable T @Nullable [] object, final @Nullable String message) {
+    public static <T> void elementsNonNull(final @NotNull Stream<@Nullable T> object, final @Nullable String message) {
         nonNull(message, "messages");
         nonNull(object, "object");
 
-        if (Arrays.stream(object).anyMatch(Objects::isNull))
+        if (object.anyMatch(Objects::isNull))
             throw new NullPointerException(message);
     }
 }
