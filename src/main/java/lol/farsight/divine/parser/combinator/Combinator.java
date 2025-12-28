@@ -60,8 +60,8 @@ public interface Combinator<E, O> {
                 )
                 .map(chars ->
                         Stream.concat(
-                                Stream.of(chars.a()),
-                                chars.b().stream()
+                                Stream.of(chars.left()),
+                                chars.right().stream()
                         ).map(String::valueOf).collect(Collectors.joining())
                 );
     }
