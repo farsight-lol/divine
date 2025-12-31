@@ -29,16 +29,17 @@ public record NoneOf<E>(@NotNull Set<E> values) implements Combinator<E, E> {
         }
 
         final var other = next.unwrap();
-        if (values.contains(other))
-            return Option.some(other);
+        if (values.contains(other)) {
+            input.rewind(mark);
+            input.emitPrimary(CombinatorError.expected(
+                    input.index(),
+                    Option.some(other),
+                    values
+            ));
 
-        input.rewind(mark);
-        input.emitPrimary(CombinatorError.expected(
-                input.index(),
-                Option.some(other),
-                values
-        ));
+            return Option.none();
+        }
 
-        return Option.none();
+        return Option.some(other);
     }
 }
